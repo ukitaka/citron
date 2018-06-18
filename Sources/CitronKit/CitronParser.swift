@@ -40,7 +40,7 @@ Citron: Modifications to Lemon to generate a parser in Swift
 // The CitronParser protocol defined below is compatible with Swift code
 // generated using Citron version 1.x.
 
-protocol CitronParser: class {
+public protocol CitronParser: class {
 
     // Types
 
@@ -128,7 +128,7 @@ protocol CitronParser: class {
 
 // Error handling
 
-enum _CitronParserError<Token, TokenCode>: Error {
+public enum _CitronParserError<Token, TokenCode>: Error {
     case syntaxErrorAt(token: Token, tokenCode: TokenCode)
     case unexpectedEndOfInput
     case stackOverflow
@@ -136,7 +136,7 @@ enum _CitronParserError<Token, TokenCode>: Error {
 
 // Parser actions and states
 
-enum _CitronParsingAction<StateNumber: BinaryInteger, RuleNumber: BinaryInteger> {
+public enum _CitronParsingAction<StateNumber: BinaryInteger, RuleNumber: BinaryInteger> {
     // Each action applies only if the look ahead symbol
     // matches the CitronSymbolCode in the action
     case SH(StateNumber) // Shift token, then go to state <state>
@@ -146,15 +146,15 @@ enum _CitronParsingAction<StateNumber: BinaryInteger, RuleNumber: BinaryInteger>
     case ACCEPT
 }
 
-enum _CitronStateOrRule<StateNumber: BinaryInteger, RuleNumber: BinaryInteger> {
+public enum _CitronStateOrRule<StateNumber: BinaryInteger, RuleNumber: BinaryInteger> {
     case state(StateNumber)
     case rule(RuleNumber)
 }
 
 // Parsing interface
 
-extension CitronParser {
-    func consume(token: CitronToken, code tokenCode: CitronTokenCode) throws {
+public extension CitronParser {
+    public func consume(token: CitronToken, code tokenCode: CitronTokenCode) throws {
         let symbolCode = tokenCode.rawValue
         tracePrint("Input:", symbolNameFor(code:symbolCode))
         LOOP: while (!yyStack.isEmpty) {
@@ -179,7 +179,7 @@ extension CitronParser {
         traceStack()
     }
 
-    func endParsing() throws -> CitronResult {
+    public func endParsing() throws -> CitronResult {
         tracePrint("End of input")
         LOOP: while (!yyStack.isEmpty) {
             let action = yyFindShiftAction(lookAhead: 0)
@@ -200,7 +200,7 @@ extension CitronParser {
         fatalError("Unexpected stack underflow")
     }
 
-    func reset() {
+    public func reset() {
         tracePrint("Resetting the parser")
         while (yyStack.count > 1) {
             yyPop()

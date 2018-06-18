@@ -3504,6 +3504,9 @@ void ReportTable(struct lemon *lemp){
   // Open the Parser class
 
   fprintf(out, "// Parser class\n\n");
+
+  fprintf(out, "import CitronKit\n\n");
+
   const char *className = lemp->className ? lemp->className : "Parser";
   fprintf(out, "class %s: CitronParser {\n\n", className);
 

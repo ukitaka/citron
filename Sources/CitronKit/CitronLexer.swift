@@ -23,16 +23,16 @@
 
 import Foundation
 
-class CitronLexer<TokenData> {
-    typealias Action = (TokenData) throws -> Void
-    enum LexingRule {
+public class CitronLexer<TokenData> {
+    public typealias Action = (TokenData) throws -> Void
+    public enum LexingRule {
         case string(String, TokenData?)
         case regex(NSRegularExpression, (String) -> TokenData?)
         case regexPattern(String, (String) -> TokenData?)
     }
-    let rules: [LexingRule]
+    public let rules: [LexingRule]
 
-    init(rules: [LexingRule]) {
+    public init(rules: [LexingRule]) {
         self.rules = rules.map { rule in
             // Convert .regexPattern values to equivalent .regex values
             switch (rule) {
@@ -44,7 +44,7 @@ class CitronLexer<TokenData> {
         }
     }
 
-    func tokenize(_ string: String, onFound: Action) throws {
+    public func tokenize(_ string: String, onFound: Action) throws {
         var index = string.startIndex
         while (index < string.endIndex) {
             var matched = false
@@ -90,6 +90,6 @@ class CitronLexer<TokenData> {
     }
 }
 
-enum CitronLexerError: Error {
+public enum CitronLexerError: Error {
     case noMatchingRuleAt(index: String.Index, in: String)
 }
